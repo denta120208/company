@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Account Suspended - PT. Milia Kreastika Persada</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #f5f5f5;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.1);
+      max-width: 640px;
+      width: 100%;
+      overflow: hidden;
+    }
+    .banner {
+      background: linear-gradient(135deg, #dc2626, #b91c1c);
+      padding: 24px;
+      text-align: center;
+      position: relative;
+    }
+    .banner::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: repeating-linear-gradient(90deg, #fbbf24, #fbbf24 20px, transparent 20px, transparent 40px);
+    }
+    .banner .icon {
+      font-size: 48px;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+    .banner h1 {
+      color: #fff;
+      font-size: 20px;
+      font-weight: 700;
+    }
+    .banner p {
+      color: #fca5a5;
+      font-size: 13px;
+      margin-top: 4px;
+    }
+    .body {
+      padding: 28px;
+    }
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #fef2f2;
+      color: #dc2626;
+      font-weight: 600;
+      font-size: 13px;
+      padding: 6px 14px;
+      border-radius: 20px;
+      margin-bottom: 16px;
+    }
+    .status::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      background: #dc2626;
+      border-radius: 50%;
+      animation: blink 1.2s ease-in-out infinite;
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+    .body h2 {
+      font-size: 18px;
+      color: #111;
+      margin-bottom: 12px;
+    }
+    .body p {
+      font-size: 14px;
+      color: #555;
+      line-height: 1.7;
+      margin-bottom: 8px;
+    }
+    .box {
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      padding: 16px;
+      margin: 16px 0;
+    }
+    .box h3 {
+      font-size: 13px;
+      color: #888;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+    }
+    .box .row {
+      display: flex;
+      justify-content: space-between;
+      padding: 6px 0;
+      font-size: 13px;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    .box .row:last-child { border: 0; }
+    .box .row span:first-child { color: #888; }
+    .box .row span:last-child { color: #333; font-weight: 500; }
+    .contact {
+      margin-top: 20px;
+      padding: 16px;
+      background: #f0f9ff;
+      border: 1px solid #bae6fd;
+      border-radius: 8px;
+    }
+    .contact h3 {
+      font-size: 13px;
+      color: #0369a1;
+      margin-bottom: 8px;
+    }
+    .contact p {
+      font-size: 13px;
+      color: #075985;
+      margin-bottom: 4px;
+    }
+    .footer-note {
+      text-align: center;
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 1px solid #eee;
+      font-size: 11px;
+      color: #aaa;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="banner">
+      <div class="icon">⚠️</div>
+      <h1>Account Suspended</h1>
+      <p>Layanan hosting free trial Anda telah berakhir</p>
+    </div>
+    <div class="body">
+      <div class="status">SUSPENDED</div>
+      <h2>Masa Aktif Free Trial Telah Habis</h2>
+      <p>
+        Akun hosting <strong>PT. Milia Kreastika Persada</strong> saat ini 
+        dinonaktifkan karena masa free trial (14 hari) telah berakhir.
+      </p>
+      <p>Silakan lakukan perpanjangan untuk mengaktifkan kembali layanan website, email, dan database Anda.</p>
+
+      <div class="box">
+        <h3>Detail Akun</h3>
+        <div class="row"><span>Domain</span><span>miliakreastika.com</span></div>
+        <div class="row"><span>Paket</span><span>Free Trial — Business Pro</span></div>
+        <div class="row"><span>Masa Aktif</span><span>14 Hari</span></div>
+        <div class="row"><span>Status</span><span style="color:#dc2626;">SUSPENDED</span></div>
+      </div>
+
+      <div class="contact">
+        <h3>📞 Hubungi Billing Support</h3>
+        <p>Email: <strong>billing@hostingprovider.com</strong></p>
+        <p>Telp: <strong>+62 21 1234 5678</strong></p>
+        <p style="margin-top:6px;font-size:12px;color:#555;">
+          Jam kerja: Senin — Jumat, 08:00 — 17:00 WIB
+        </p>
+      </div>
+
+      <div class="footer-note">
+        PT. Milia Kreastika Persada — Billing Department &copy; 2026
+      </div>
+    </div>
+  </div>
+</body>
+</html>
