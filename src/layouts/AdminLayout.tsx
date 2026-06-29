@@ -1,14 +1,12 @@
 import { useState } from 'react'
 import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom'
-import { LayoutDashboard, Package, FolderTree, FilePlus, Settings, LogOut, Menu, X, Tags } from 'lucide-react'
+import { LayoutDashboard, Package, FolderTree, FilePlus, LogOut, Menu, X } from 'lucide-react'
 
 const sidebarLinks = [
   { label: 'Dashboard', path: '/admin', icon: LayoutDashboard },
   { label: 'Add Product', path: '/admin/import', icon: FilePlus },
   { label: 'Products', path: '/admin/products', icon: Package },
   { label: 'Categories', path: '/admin/categories', icon: FolderTree },
-  { label: 'Brand Mappings', path: '/admin/brand-mappings', icon: Tags },
-  { label: 'Settings', path: '/admin/settings', icon: Settings },
 ]
 
 export default function AdminLayout() {
