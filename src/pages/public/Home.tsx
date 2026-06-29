@@ -77,16 +77,11 @@ export default function Home() {
   return (
     <div>
       {/* HERO */}
-      <section
-        className="relative min-h-screen flex items-center bg-gray-900 overflow-hidden"
-        style={{
-          backgroundImage: 'url(/company.jpeg)',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center 35%',
-        }}
-      >
-        <div className="absolute inset-0 bg-gradient-to-b from-gray-900/60 via-gray-900/30 to-gray-900/70" />
+      <section className="relative min-h-screen flex items-center bg-gray-900 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-blue-950/80 to-gray-900" />
         <div className="absolute inset-0 bg-grid opacity-20" />
+        <div className="absolute top-0 -left-40 w-80 h-80 bg-blue-600/20 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 -right-40 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl" />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-24 pb-16 lg:pt-32 lg:pb-24">
           <div className="max-w-2xl">
             <div className="inline-flex items-center gap-2 bg-blue-600/20 border border-blue-500/30 text-blue-400 px-4 py-1.5 rounded-full text-xs font-medium mb-6 animate-fade-in">
