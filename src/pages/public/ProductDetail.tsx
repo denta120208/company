@@ -27,7 +27,7 @@ export default function ProductDetail() {
       setLoading(false)
     }
     loadBrand()
-  }, [slug])
+  }, [id])
 
   if (loading) {
     return (
