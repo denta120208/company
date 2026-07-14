@@ -14,10 +14,11 @@ CREATE TABLE IF NOT EXISTS brands (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
   category_id UUID NOT NULL REFERENCES categories(id) ON DELETE CASCADE,
   name TEXT NOT NULL,
-  slug TEXT NOT NULL UNIQUE,
+  slug TEXT NOT NULL,
   thumbnail TEXT,
   description TEXT,
-  created_at TIMESTAMPTZ DEFAULT NOW()
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  UNIQUE(category_id, slug)
 );
 
 -- Variants
@@ -60,6 +61,10 @@ CREATE TABLE IF NOT EXISTS import_logs (
   failed_rows INTEGER DEFAULT 0,
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
+
+-- Migration for existing DB: run this to fix unique constraint
+-- ALTER TABLE brands DROP CONSTRAINT brands_slug_key;
+-- ALTER TABLE brands ADD CONSTRAINT brands_category_slug_key UNIQUE(category_id, slug);
 
 -- Indexes
 CREATE INDEX IF NOT EXISTS idx_brands_category_id ON brands(category_id);

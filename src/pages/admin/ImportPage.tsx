@@ -137,6 +137,7 @@ export default function ImportPage() {
         .from('brands')
         .select('id')
         .eq('slug', brandSlug)
+        .eq('category_id', catId)
         .maybeSingle()
 
       if (existingBrand) {

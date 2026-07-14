@@ -5,7 +5,7 @@ import type { Brand, Variant } from '../../types/database'
 import { supabase } from '../../lib/supabase'
 
 export default function ProductDetail() {
-  const { slug } = useParams<{ slug: string }>()
+  const { id } = useParams<{ id: string }>()
   const [brand, setBrand] = useState<Brand | null>(null)
   const [variants, setVariants] = useState<Variant[]>([])
   const [selectedVariant, setSelectedVariant] = useState<Variant | null>(null)
@@ -13,9 +13,9 @@ export default function ProductDetail() {
 
   useEffect(() => {
     async function loadBrand() {
-      if (!slug) return
+      if (!id) return
       setLoading(true)
-      const { data: brandData } = await supabase.from('brands').select('*').eq('slug', slug).single()
+      const { data: brandData } = await supabase.from('brands').select('*').eq('id', id).single()
       if (brandData) {
         setBrand(brandData)
         const { data: variantData } = await supabase.from('variants').select('*').eq('brand_id', brandData.id).order('variant_name')

@@ -97,7 +97,7 @@ export default function Products() {
                 {brands.map((brand) => (
                   <Link
                     key={brand.id}
-                    to={`/products/${brand.slug}`}
+                    to={`/products/${brand.id}`}
                     className="group rounded-xl border border-gray-200 overflow-hidden card-hover bg-white"
                   >
                     <div className="aspect-[4/3] bg-gray-50 flex items-center justify-center p-6 relative">

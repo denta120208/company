@@ -177,7 +177,7 @@ export default function Home() {
             {brands.map((brand) => (
               <Link
                 key={brand.id}
-                to={`/products/${brand.slug}`}
+                to={`/products/${brand.id}`}
                 className="group p-6 text-center rounded-xl border border-gray-200 bg-gray-50 card-hover"
               >
                 {brand.thumbnail ? (
