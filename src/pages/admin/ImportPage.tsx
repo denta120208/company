@@ -178,13 +178,22 @@ export default function ImportPage() {
           image: row.image_preview || null,
         }
 
-        const { data: existing, error: findErr } = await supabase
+        const { data: existingVariants, error: findErr } = await supabase
           .from('variants')
-          .select('id')
+          .select('id, shelf_life, content_per_carton, carton_length, carton_width, carton_height, loading_capacity_20ft, loading_capacity_40ft')
           .eq('brand_id', brandId)
           .eq('variant_name', description)
-          .maybeSingle()
         if (findErr) { errors.push(`${description}: lookup error — ${findErr.message}`); continue }
+
+        const existing = existingVariants?.find((v: any) =>
+          (v.shelf_life ?? null) === (row.shelf_life.trim() || null) &&
+          (v.content_per_carton ?? null) === (row.content_per_carton.trim() || null) &&
+          (v.carton_length ?? null) === (row.length.trim() || null) &&
+          (v.carton_width ?? null) === (row.width.trim() || null) &&
+          (v.carton_height ?? null) === (row.height.trim() || null) &&
+          (v.loading_capacity_20ft ?? null) === (row.loading_20ft.trim() || null) &&
+          (v.loading_capacity_40ft ?? null) === (row.loading_40ft.trim() || null)
+        )
 
         if (existing) {
           const { error: updErr } = await supabase.from('variants').update(variantData).eq('id', existing.id)

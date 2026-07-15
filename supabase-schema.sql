@@ -40,8 +40,7 @@ CREATE TABLE IF NOT EXISTS variants (
   gross_weight TEXT,
   net_weight TEXT,
   packing TEXT,
-  created_at TIMESTAMPTZ DEFAULT NOW(),
-  UNIQUE(brand_id, variant_name)
+  created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
 -- Brand Mappings
@@ -62,9 +61,10 @@ CREATE TABLE IF NOT EXISTS import_logs (
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- Migration for existing DB: run this to fix unique constraint
+-- Migration for existing DB: run these to fix constraints
 -- ALTER TABLE brands DROP CONSTRAINT brands_slug_key;
 -- ALTER TABLE brands ADD CONSTRAINT brands_category_slug_key UNIQUE(category_id, slug);
+-- ALTER TABLE variants DROP CONSTRAINT variants_brand_id_variant_name_key;
 
 -- Indexes
 CREATE INDEX IF NOT EXISTS idx_brands_category_id ON brands(category_id);

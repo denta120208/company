@@ -190,12 +190,23 @@ export default function ManageProducts() {
           const { error: updErr } = await supabase.from('variants').update(data).eq('id', v.db_id)
           if (updErr) errs.push(`${variantName}: update error — ${updErr.message}`)
         } else if (variantName) {
-          const { data: existing } = await supabase
+          const { data: existingVariants, error: findErr } = await supabase
             .from('variants')
-            .select('id')
+            .select('id, shelf_life, content_per_carton, carton_length, carton_width, carton_height, loading_capacity_20ft, loading_capacity_40ft')
             .eq('brand_id', editingBrand.id)
             .eq('variant_name', variantName)
-            .maybeSingle()
+          if (findErr) { errs.push(`${variantName}: lookup error — ${findErr.message}`); continue }
+
+          const existing = existingVariants?.find((ev: any) =>
+            (ev.shelf_life ?? null) === (v.shelf_life.trim() || null) &&
+            (ev.content_per_carton ?? null) === (v.content_per_carton.trim() || null) &&
+            (ev.carton_length ?? null) === (v.carton_length.trim() || null) &&
+            (ev.carton_width ?? null) === (v.carton_width.trim() || null) &&
+            (ev.carton_height ?? null) === (v.carton_height.trim() || null) &&
+            (ev.loading_capacity_20ft ?? null) === (v.loading_capacity_20ft.trim() || null) &&
+            (ev.loading_capacity_40ft ?? null) === (v.loading_capacity_40ft.trim() || null)
+          )
+
           if (existing) {
             const { error: updErr } = await supabase.from('variants').update(data).eq('id', existing.id)
             if (updErr) errs.push(`${variantName}: update error — ${updErr.message}`)
