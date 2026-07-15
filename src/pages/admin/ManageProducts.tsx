@@ -190,8 +190,19 @@ export default function ManageProducts() {
           const { error: updErr } = await supabase.from('variants').update(data).eq('id', v.db_id)
           if (updErr) errs.push(`${variantName}: update error — ${updErr.message}`)
         } else if (variantName) {
-          const { error: insErr } = await supabase.from('variants').insert(data)
-          if (insErr) errs.push(`${variantName}: insert error — ${insErr.message}`)
+          const { data: existing } = await supabase
+            .from('variants')
+            .select('id')
+            .eq('brand_id', editingBrand.id)
+            .eq('variant_name', variantName)
+            .maybeSingle()
+          if (existing) {
+            const { error: updErr } = await supabase.from('variants').update(data).eq('id', existing.id)
+            if (updErr) errs.push(`${variantName}: update error — ${updErr.message}`)
+          } else {
+            const { error: insErr } = await supabase.from('variants').insert(data)
+            if (insErr) errs.push(`${variantName}: insert error — ${insErr.message}`)
+          }
         }
       }
 
