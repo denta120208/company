@@ -159,19 +159,23 @@ export default function ManageProducts() {
 
     try {
       const thumbnail = editBrandThumbnail || variants.find((v) => v.image)?.image || null
-      await supabase
+      const { error: brandErr } = await supabase
         .from('brands')
         .update({ name: editBrandName.trim(), category_id: editCategoryId, thumbnail })
         .eq('id', editingBrand.id)
+      if (brandErr) throw brandErr
 
       for (const vid of deletedVariantIds) {
-        await supabase.from('variants').delete().eq('id', vid)
+        const { error: delErr } = await supabase.from('variants').delete().eq('id', vid)
+        if (delErr) throw delErr
       }
 
+      const errs: string[] = []
       for (const v of variants) {
+        const variantName = v.variant_name.trim() || v.description.trim()
         const data = {
           brand_id: editingBrand.id,
-          variant_name: v.variant_name.trim() || v.description.trim(),
+          variant_name: variantName,
           description: v.description.trim() || null,
           shelf_life: v.shelf_life.trim() || null,
           content_per_carton: v.content_per_carton.trim() || null,
@@ -183,14 +187,17 @@ export default function ManageProducts() {
           image: v.image || null,
         }
         if (v.db_id) {
-          await supabase.from('variants').update(data).eq('id', v.db_id)
-        } else if (data.variant_name) {
-          await supabase.from('variants').insert(data)
+          const { error: updErr } = await supabase.from('variants').update(data).eq('id', v.db_id)
+          if (updErr) errs.push(`${variantName}: update error — ${updErr.message}`)
+        } else if (variantName) {
+          const { error: insErr } = await supabase.from('variants').insert(data)
+          if (insErr) errs.push(`${variantName}: insert error — ${insErr.message}`)
         }
       }
 
       closeEdit()
       loadBrands()
+      if (errs.length) alert('Some variants failed to save:\n' + errs.join('\n'))
     } catch (err: any) {
       alert(err.message || 'Failed to save')
     } finally {
