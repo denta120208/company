@@ -95,6 +95,7 @@ export default function ImportPage() {
       return
     }
 
+    const skipped = rows.filter((r) => !r.description.trim()).length
     const validRows = rows.filter((r) => r.description.trim())
     if (validRows.length === 0) {
       setMessage({ type: 'error', text: 'At least one variant with a description is required.' })
@@ -104,15 +105,17 @@ export default function ImportPage() {
     let catId = categoryId
     if (showNewCategory && newCategoryName.trim()) {
       const slug = slugify(newCategoryName)
-      const { data: existing } = await supabase.from('categories').select('id').eq('slug', slug).maybeSingle()
+      const { data: existing, error: catErr } = await supabase.from('categories').select('id').eq('slug', slug).maybeSingle()
+      if (catErr) { setMessage({ type: 'error', text: `Category lookup failed: ${catErr.message}` }); return }
       if (existing) {
         catId = existing.id
       } else {
-        const { data: newCat } = await supabase
+        const { data: newCat, error: newCatErr } = await supabase
           .from('categories')
           .insert({ name: newCategoryName.trim(), slug })
           .select('id')
           .single()
+        if (newCatErr) { setMessage({ type: 'error', text: `Create category failed: ${newCatErr.message}` }); return }
         if (newCat) {
           catId = newCat.id
           setCategories((prev) => [...prev, { id: newCat.id, name: newCategoryName.trim(), slug }])
@@ -133,33 +136,38 @@ export default function ImportPage() {
       let brandId: string
       const thumbnail = brandThumbnail || validRows.find((r) => r.image_preview)?.image_preview || null
 
-      const { data: existingBrand } = await supabase
+      const { data: existingBrand, error: brandErr } = await supabase
         .from('brands')
         .select('id')
         .eq('slug', brandSlug)
         .eq('category_id', catId)
         .maybeSingle()
+      if (brandErr) throw brandErr
 
       if (existingBrand) {
         brandId = existingBrand.id
-        await supabase.from('brands').update({ category_id: catId, name: brandName.trim(), thumbnail }).eq('id', brandId)
+        const { error: updErr } = await supabase.from('brands').update({ category_id: catId, name: brandName.trim(), thumbnail }).eq('id', brandId)
+        if (updErr) throw updErr
       } else {
-        const { data: newBrand } = await supabase
+        const { data: newBrand, error: insErr } = await supabase
           .from('brands')
           .insert({ name: brandName.trim(), slug: brandSlug, category_id: catId, thumbnail })
           .select('id')
           .single()
+        if (insErr) throw insErr
         brandId = newBrand!.id
       }
 
       let created = 0
       let updated = 0
+      const errors: string[] = []
 
       for (const row of validRows) {
+        const description = row.description.trim()
         const variantData = {
           brand_id: brandId,
-          variant_name: row.description.trim(),
-          description: row.description.trim() || null,
+          variant_name: description,
+          description,
           shelf_life: row.shelf_life.trim() || null,
           content_per_carton: row.content_per_carton.trim() || null,
           carton_length: row.length.trim() || null,
@@ -170,23 +178,29 @@ export default function ImportPage() {
           image: row.image_preview || null,
         }
 
-        const { data: existing } = await supabase
+        const { data: existing, error: findErr } = await supabase
           .from('variants')
           .select('id')
           .eq('brand_id', brandId)
-          .eq('variant_name', row.description.trim())
+          .eq('variant_name', description)
           .maybeSingle()
+        if (findErr) { errors.push(`${description}: lookup error — ${findErr.message}`); continue }
 
         if (existing) {
-          await supabase.from('variants').update(variantData).eq('id', existing.id)
+          const { error: updErr } = await supabase.from('variants').update(variantData).eq('id', existing.id)
+          if (updErr) { errors.push(`${description}: update error — ${updErr.message}`); continue }
           updated++
         } else {
-          await supabase.from('variants').insert(variantData)
+          const { error: insErr } = await supabase.from('variants').insert(variantData)
+          if (insErr) { errors.push(`${description}: insert error — ${insErr.message}`); continue }
           created++
         }
       }
 
-      setMessage({ type: 'success', text: `Saved! ${created} created, ${updated} updated for "${brandName}".` })
+      const parts = [`Saved! ${created} created, ${updated} updated for "${brandName}".`]
+      if (skipped) parts.push(`${skipped} row(s) skipped (no description).`)
+      if (errors.length) parts.push(`Errors: ${errors.join('; ')}`)
+      setMessage({ type: errors.length ? 'error' : 'success', text: parts.join(' ') })
       setRows([createRow()])
     } catch (err: any) {
       setMessage({ type: 'error', text: err.message || 'Failed to save.' })
