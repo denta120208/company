@@ -55,20 +55,26 @@ export default function Footer() {
                 <li className="flex items-start gap-2.5">
                   <MapPin size={14} className="mt-0.5 shrink-0 text-gray-500" />
                   <span className="text-gray-500">
-                    Ruko Danau Sunter Mas Blok B No. 48<br />
-                    Jl. Sunter Jaya 1, Jakarta Utara 14350
+                    Komplek Ruko Danau Sunter Blok B, No 48<br />
+                    Jalan Sunter Jaya 1, Jakarta Utara 14350
                   </span>
                 </li>
                 <li>
-                  <a href="mailto:miliakreastika@yahoo.com" className="flex items-center gap-2.5 text-gray-500 hover:text-white transition-colors group">
+                  <a href="mailto:emildpc@yahoo.co.id" className="flex items-center gap-2.5 text-gray-500 hover:text-white transition-colors group">
                     <Mail size={14} className="shrink-0 text-gray-500 group-hover:text-blue-500 transition-colors" />
-                    miliakreastika@yahoo.com
+                    emildpc@yahoo.co.id
                   </a>
                 </li>
                 <li>
                   <a href="tel:+622129460530" className="flex items-center gap-2.5 text-gray-500 hover:text-white transition-colors group">
                     <Phone size={14} className="shrink-0 text-gray-500 group-hover:text-blue-500 transition-colors" />
-                    (021) 2946 0530
+                    (021) 2946 0530 (Office)
+                  </a>
+                </li>
+                <li>
+                  <a href="tel:+628129931397" className="flex items-center gap-2.5 text-gray-500 hover:text-white transition-colors group">
+                    <Phone size={14} className="shrink-0 text-gray-500 group-hover:text-blue-500 transition-colors" />
+                    0812 9931 397 (Mobile)
                   </a>
                 </li>
               </ul>

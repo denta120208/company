@@ -142,9 +142,15 @@ export default function ProductDetail() {
               <SpecItem icon={Package} label="Description" value={selectedVariant.description} />
               <SpecItem icon={Clock} label="Shelf Life" value={selectedVariant.shelf_life} />
               <SpecItem icon={Package} label="Content / Carton" value={selectedVariant.content_per_carton} />
-              <SpecItem icon={Ruler} label="Length (cm)" value={selectedVariant.carton_length} />
-              <SpecItem icon={Ruler} label="Width (cm)" value={selectedVariant.carton_width} />
-              <SpecItem icon={Ruler} label="Height (cm)" value={selectedVariant.carton_height} />
+              <SpecItem
+                icon={Ruler}
+                label="Carton Size"
+                value={
+                  selectedVariant.carton_length && selectedVariant.carton_width && selectedVariant.carton_height
+                    ? `${selectedVariant.carton_length} x ${selectedVariant.carton_width} x ${selectedVariant.carton_height} (cm)`
+                    : null
+                }
+              />
               <SpecItem icon={Ship} label="20 FT" value={selectedVariant.loading_capacity_20ft} />
               <SpecItem icon={Ship} label="40 FT" value={selectedVariant.loading_capacity_40ft} />
             </div>

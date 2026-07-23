@@ -6,22 +6,28 @@ const contactInfo = [
     icon: MapPin,
     title: 'Address',
     lines: [
-      'Ruko Danau Sunter Mas Blok B No. 48',
-      'Jl. Sunter Jaya 1, Jakarta Utara 14350',
-      'Indonesia',
+      'Komplek Ruko Danau Sunter Blok B, No 48',
+      'Jalan Sunter Jaya 1, Jakarta Utara 14350',
+      'INDONESIA',
     ],
   },
   {
     icon: Phone,
-    title: 'Telepon',
+    title: 'Office',
     href: 'tel:+622129460530',
     value: '(021) 2946 0530',
   },
   {
+    icon: Phone,
+    title: 'Mobile',
+    href: 'tel:+628129931397',
+    value: '0812 9931 397',
+  },
+  {
     icon: Mail,
     title: 'Email',
-    href: 'mailto:miliakreastika@yahoo.com',
-    value: 'miliakreastika@yahoo.com',
+    href: 'mailto:emildpc@yahoo.co.id',
+    value: 'emildpc@yahoo.co.id',
     copyable: true,
   },
   {
@@ -36,7 +42,7 @@ export default function Contact() {
   const [copied, setCopied] = useState(false)
 
   const copyEmail = useCallback(() => {
-    navigator.clipboard.writeText('miliakreastika@yahoo.com')
+    navigator.clipboard.writeText('emildpc@yahoo.co.id')
     setCopied(true)
     setTimeout(() => setCopied(false), 2000)
   }, [])
@@ -47,7 +53,7 @@ export default function Contact() {
     const body = encodeURIComponent(
       `Name: ${formData.name}\nEmail: ${formData.email}\nCompany: ${formData.company || '-'}\n\n${formData.message}`
     )
-    window.location.href = `mailto:miliakreastika@yahoo.com?subject=${subject}&body=${body}`
+    window.location.href = `mailto:emildpc@yahoo.co.id?subject=${subject}&body=${body}`
   }
 
   return (
